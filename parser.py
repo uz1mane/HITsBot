@@ -12,7 +12,7 @@ def parse():
 	session = HTMLSession()
 
 	response = session.get(URL)
-	response.html.render(timeout=500)
+	response.html.render()
 	
 	# response_rendered = get_intime()
 	# response.html.render()
