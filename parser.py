@@ -1,18 +1,26 @@
 from bs4 import BeautifulSoup
 import requests
+from requests_html import HTMLSession
 
 def parse():
-	# URL = 'https://intime.tsu.ru/schedule/group/3c9f5a45-ffca-11eb-8169-005056bc249c?name=971901'
-	URL = 'https://intime.tsu.ru'
+	URL = 'https://intime.tsu.ru/schedule/group/3c9f5a45-ffca-11eb-8169-005056bc249c?name=971901'
+	# URL = 'https://intime.tsu.ru'
 	HEADERS = {
 		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 OPR/78.0.4093.147'		
 	}
 
-	response = requests.get(URL, headers = HEADERS)
-	soup = BeautifulSoup(response.content, 'html.parser')
-	items = soup.findAll(class_ = 'home_content-container')
+	session = HTMLSession()
 
-	subjects = []
+	response = session.get(URL)
+	response.html.render(timeout=500)
+	
+	# response_rendered = get_intime()
+	# response.html.render()
+	# response = requests.get(URL, headers = HEADERS)
+	# soup = BeautifulSoup(response.content, 'html.parser')
+	# items = response.html.find('ant-col ant-col-4')
+
+	# subjects = []
 
 	# for item in items:
 	# 	subjects.append({
@@ -27,7 +35,8 @@ def parse():
 
 	# print (len(items))
 
-	print (response.text)
+	print (response.html.html)
+	# print (response_rendered.text)
 
 # soup = BeautifulSoup(src, "lxml")
 
