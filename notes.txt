@@ -1,0 +1,110 @@
+'': 880095046999891998, #1 gr
+	'': 880095747347984435, #2 gr
+	'': 880096057688752140, #3 gr
+	'': 880096224831750245, #4 gr
+
+	'': 880190683720343552, #1st mag
+	'': 880190833696067605, #2nd mag
+
+	'': 880190974385594398, #teacher
+	'': 880191099023528026, #assist
+
+	'': 880191248898613280, #guest
+
+	'': 880190492028059648, #gamer
+	'': 880190287333453914, #runner
+	'': 880190599670693889, #cyclist
+	'': 880190413825257472, #creator
+	'': 880190453742444645, #dushnila
+
+
+
+async def on_raw_reaction_add(self, payload):
+		channel = self.get_channel(payload.channel_id) 
+		message = await channel.fetch_message(payload.message_id)
+		member = utils.get(message.guild.members, id=payload.user_id)
+
+		try: 
+			emoji = str(payload.emoji)
+			role = utils.get(message.guild.roles, id=config.ROLES[emoji])
+
+			if (len([i for i in member.roles if i.id not in config.EXCROES]) <= config.MAX_ROLES_PER_USER):
+				await member.add_roles(role)
+				print('[SUCCESS] User {0.display_name} has been granted with role {1.name}'.format(member, role))		
+			else:
+				await message.remove_reaction(payload.emoji, member)
+				print('[ERROR] Too many roles for user {0.display_name}'.format(member, role))	
+		except KeyError as e:
+			print('[ERROR] Key Error, no role found for ' + emoji)
+		except Exception as e:
+			print(repr(e))
+
+	async def on_raw_reaction_remove(self, payload):
+		channel = self.get_channel(payload.channel_id) 
+		message = await channel.fetch_message(payload.message_id)
+		member = utils.get(message.guild.members, id=payload.user_id)
+
+		try: 
+			emoji = str(payload.emoji)
+			role = utils.get(message.guild.roles, id=config.ROLES[emoji])
+
+			
+			await member.remove_roles(role)
+				print('[SUCCESS] Role {1.name} has been removed from user {0.display_name} '.format(member, role))		
+			
+		except Exception as e:
+			print(repr(e))
+
+
+
+------------------------------------------------------------
+
+
+parser:
+
+i.schedule links
+	1.	972101: https://intime.tsu.ru/schedule/group/42974d38-ffca-11eb-8169-005056bc249c?name=972101
+		972102: https://intime.tsu.ru/schedule/group/42974d3c-ffca-11eb-8169-005056bc249c?name=972102
+		972103: https://intime.tsu.ru/schedule/group/48902a31-ffca-11eb-8169-005056bc249c?name=972103
+		972105: https://intime.tsu.ru/schedule/group/4e0e15aa-0699-11ec-816a-005056bc249c?name=972105
+
+
+	2.	972001: https://intime.tsu.ru/schedule/group/3c9f5a96-ffca-11eb-8169-005056bc249c?name=972001
+		972002: https://intime.tsu.ru/schedule/group/3c9f5aa4-ffca-11eb-8169-005056bc249c?name=972002
+		972005: https://intime.tsu.ru/schedule/group/3c9f5a9d-ffca-11eb-8169-005056bc249c?name=972005
+
+	3.	971901: https://intime.tsu.ru/schedule/group/3c9f5a45-ffca-11eb-8169-005056bc249c?name=971901
+		971902: https://intime.tsu.ru/schedule/group/3c9f5a50-ffca-11eb-8169-005056bc249c?name=971902
+		971905: https://intime.tsu.ru/schedule/group/41afdb6e-0699-11ec-816a-005056bc249c?name=971905
+
+	4.	971810: https://intime.tsu.ru/schedule/group/3c9f5915-ffca-11eb-8169-005056bc249c?name=971810
+		971811: https://intime.tsu.ru/schedule/group/3c9f591d-ffca-11eb-8169-005056bc249c?name=971811
+		971812: https://intime.tsu.ru/schedule/group/3c9f5925-ffca-11eb-8169-005056bc249c?name=971812
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
