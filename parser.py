@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 from requests_html import HTMLSession
+import datetime
 
 def parse(group=0):
 
@@ -49,10 +50,33 @@ def parse(group=0):
 		soup = BeautifulSoup(response.html.html, 'lxml')
 		items = soup.findAll(class_ = 'ant-col ant-col-4')		
 
-		# for item in items:
-		# 	subjects.append({
-		# 		'title': item.find('span', class_ = 'ant-tag ant-tag-orange').find('span', class_ = 'lesson-title').get_text(strip = True)
-		# 	})
+		weekday = datetime.datetime.today().isoweekday()
+		# print (weekday)
+
+		# upper_limit = int((len(items) / 6) * weekday)
+		# lower_limit = int((len(items) / 6) * weekday - 6)	
+
+		items = items[6:]	
+
+
+		subjects = []
+		for i in range(0,7):
+			subjects.append(items[weekday + i * 6])		
+
+		schedule = []	
+		for item in subjects:
+		 	subj = item.find(class_ = 'lesson-title')
+		 	if (subj != None):
+		 		schedule.append(subj.get_text())		 		
+		 	else:
+		 		schedule.append(' ')
+
+
+		# if item is None:
+		# 	schedule.append(' ')
+		# else:
+		# 	schedule.append(item.get_text())
+				
 
 		# for subject in subjects:
 		# 	print(subject["title"])
@@ -62,8 +86,13 @@ def parse(group=0):
 
 		# print (len(items))
 
-		print (response.html.html)
+
+
+		# print (response.html.html)
 		print (len(items))
+		for subj in schedule:
+			print (subj)
+
 	else:
 		print ('Please, enter correct group number')
 
